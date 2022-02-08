@@ -1,9 +1,9 @@
-#include <fdf.h>
+#include "fdf.h"
 
 int	map_width(int fd)
 {
 	char	*str;
-	int	i;
+	int		i;
 
 	i = 0;
 	str = get_next_line(fd);
@@ -22,7 +22,7 @@ int	map_width(int fd)
 int	map_height(int fd)
 {
 	char	*str;
-	int	i;
+	int		i;
 
 	str = get_next_line(fd);
 	i = -1;
@@ -31,19 +31,22 @@ int	map_height(int fd)
 	return (i);
 }
 
-int	**map_create(char *file)
+int	**map_create(int fd)
 {
-	int	**map;
-	int	fd;
-	int	i;
-	char	*str;
+	int		**map;
+	int		i;
+	char	**str;
+	int		j;
 
-	fd = open(file,O_RDONLY);
-	i = -1;
-	map = (**int)malloc(sizeof(int *) * map_height(fd));
-	while (++i < mp_hg)
+	i = 0;
+	map = (int **)malloc(sizeof(int *) * map_height(fd));
+	while (i < map_height(fd))
 	{
-		map[i] = (int *)malloc(sizeof(int) * map_weight(fd));
+		map[i] = (int *)malloc(sizeof(int) * map_width(fd));
 		str = ft_split(get_next_line(fd), ' ');
+		j = -1;
+		while(j++, str[j])
+			map[i][j] = ft_atoi(str[j]);
 	}
+	return (map);
 }

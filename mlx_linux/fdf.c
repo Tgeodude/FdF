@@ -1,39 +1,30 @@
 #include "fdf.h"
+#include <stdio.h>
 
-int	width_sum(int fd)
-{
-	char	*arr;
-	int	word;
-
-	word = 0;
-	arr = get_next_line(fd);
-	while (*arr)
-	{
-		while (*arr == ' ' && *arr)
-                        arr++;
-                if (arr)
-                        words++;
-                while (*arr != ' ' && *arr)
-                        arr++;
-	}
-	return (word)
-
-}
-
-int	height_sum(int fd)
-{
-	int word;
-
-	word = 0;
-	while (get_next_line(fd))
-		word++;
-}
-
-int main(void)
+int main(int argc, char **argv)
 {
 	t_data *fdf;
+	int		**map;
+	int		fd;
 
-	fd = open(file, O_RDONLY);
-	fdf.width = width_sum(fd);
-	fdf.height = height_sum(fd);
+	int	i;
+	/*int	j;*/
+
+	if (argc != 2)
+		write(1, "error\n", 6);
+	fd = open(argv[1], O_RDONLY);
+	fdf = (t_data *)malloc(sizeof(t_data));
+	map = map_create(fd);
+	fdf->width = map_width(fd);
+	fdf->height = map_height(fd);
+	close(fd);
+
+	i = 0;
+	while(i++ < fdf->height)
+	{
+		j = 0;
+		while (j++ < fdf->width)
+			printf("%d", map[i][j]);
+	}
+	return (0);
 }
