@@ -1,18 +1,20 @@
-FRAEMWORKS=-framework OpenGL -framework AppKit
 FLAGS=-Werror -Wextra -Wall
 NAME=fdf
-SRC=*.c
-INCLUDES = libft/libft.a
+SRC= main.c \
+     get_next_line.c \
+     get_next_line_utils.c \
+     map_creator.c \
 
-all:
+INCLUDES=libft/libft.a
+
+all:	$(OBJ) fdf.h
 	@make -C libft/ all
-	gcc $(SRC) -o $(NAME) $(FLAGS) $(INCLUDES) $(FRAEMWORKS)
+	gcc $(SRC) -o $(NAME) $(FLAGS) $(INCLUDES)
 
 clean:
 	@make -C libft/ clean
 
 fclean: clean
 	@/bin/rm -f $(NAME)
-	@make -C libft/ fclean
 
 re: fclean all

@@ -1,17 +1,20 @@
 #ifndef FDF_H
 # define FDF_H
-# include <mlx.h>
+
 # include <fcntl.h>
 # include "get_next_line.h"
 # include "libft/libft.h"
+# include <unistd.h>
+# include <stdlib.h>
 
 typedef struct s_data {
-	int width;
-	int height;
+	int	width;
+	int	height;
+	int	**map;
 } t_data;
 
-int	**map_create(int fd);
-int	map_height(int fd);
-int	map_width(int fd);
+int	**map_create(char *maps);
+int	map_height(char *maps);
+int	map_width(char *maps);
 
 #endif
