@@ -11,6 +11,9 @@ typedef struct s_data {
 	int height;
 	int	**map;
 	void	*mlx_pointer;
+	void	*mlx_window;
+	int	i_l;
+	int	j_l;
 
 } t_data;
 
