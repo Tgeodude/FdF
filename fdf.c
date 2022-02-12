@@ -57,19 +57,19 @@ int main(int argc, char **argv)
 		j = -1;
 		while (j++, j < mp_hg)
 		{
-			if (fdf.map[i][j] <=  0 && fdf.map[i][j + 1] && fdf.map[i][j + 1] > 0)
+			if (fdf.map[i][j] <=  0 && (j + 1) < mp_hg && fdf.map[i][j + 1] > 0)
 				drawLine(50 * i, 50 * j, 50 * i, (j + 1) * 50, fdf, 0x54ff05);
-			if (fdf.map[i][j] <= 0 && fdf.map[i + 1][j] && fdf.map[i + 1][j] > 0)
+			if (fdf.map[i][j] <= 0 && (i + 1) < mp_wd /*&& fdf.map[i + 1][j] > 0*/)
 				drawLine(50 * i, 50 * j, 50 * (i + 1), j * 50, fdf,0x54ff05);
-			if (fdf.map[i][j] <= 0 && fdf.map[i + 1][j + 1] && fdf.map[i + 1][i + 1])
+			if (fdf.map[i][j] <= 0 && (i + 1) < mp_wd && (j + 1) < mp_hg /*&& fdf.map[i + 1][i + 1] > 0*/)
 				drawLine(50 * i, 50 * j, 50 * (i + 1), (j + 1) * 50, fdf, 0x54ff05);
-			if (fdf.map[i][j] > 0 && fdf.map[i][j + 1])
+			if (fdf.map[i][j] > 0 && (j + 1) < mp_hg)
 				drawLine(50 * i, 50 * j, 50 * i, (j + 1) * 50, fdf, 0x54ff05);
-			if (fdf.map[i][j] > 0 && fdf.map[i + 1][j] && fdf.map[i + 1][j] > 0)
+			if (fdf.map[i][j] > 0 && (i + 1) < mp_wd)
 				drawLine(50 * i, 50 * j, 50 * (i + 1), j * 50, fdf, 0x54ff05);
-			if (fdf.map[i][j] > 0 && fdf.map[i + 1][j + 1])
+			if (fdf.map[i][j] > 0 && (i + 1) < mp_wd && (j + 1) < mp_hg)
 				drawLine(50 * i, 50 * j, 50 * (i + 1), (j + 1) * 50, fdf,0x54ff05);
-			if (fdf.map[i][j] <= 0 && fdf.map[i][j + 1])
+			if (fdf.map[i][j] <= 0 && (j + 1) < mp_hg)
 				drawLine(50 * i, 50 * j, 50 * i, (j + 1) * 50, fdf, 0xff052f);
 		}
 	}
