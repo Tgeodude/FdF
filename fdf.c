@@ -12,7 +12,7 @@ void drawLine(int x1, int y1, int x2, int y2, t_data fdf, int color)
     mlx_pixel_put(fdf.mlx_pointer,fdf.mlx_window, x2, y2, color);
 	while(x1 != x2 || y1 != y2) 
    {
-	   mlx_pixel_put(fdf.mlx_pointer,fdf.mlx_window, x2, y2, color);
+	   mlx_pixel_put(fdf.mlx_pointer,fdf.mlx_window, x1, y1, color);
         int error2 = error * 2;
         if(error2 > -deltaY) 
         {
@@ -52,25 +52,19 @@ int main(int argc, char **argv)
 	mp_hg = fdf.height;
 	fdf.height += 50 * (fdf.height);
 	fdf.width += 50 * (fdf.width);
-	while (i++, i < mp_wd)
+	while (i++, i < mp_hg)
 	{
 		j = -1;
-		while (j++, j < mp_hg)
+		while (j++, j < mp_wd)
 		{
-			if (fdf.map[i][j] <=  0 && (j + 1) < mp_hg && fdf.map[i][j + 1] > 0)
-				drawLine(50 * i, 50 * j, 50 * i, (j + 1) * 50, fdf, 0x54ff05);
-			if (fdf.map[i][j] <= 0 && (i + 1) < mp_wd /*&& fdf.map[i + 1][j] > 0*/)
-				drawLine(50 * i, 50 * j, 50 * (i + 1), j * 50, fdf,0x54ff05);
-			if (fdf.map[i][j] <= 0 && (i + 1) < mp_wd && (j + 1) < mp_hg /*&& fdf.map[i + 1][i + 1] > 0*/)
-				drawLine(50 * i, 50 * j, 50 * (i + 1), (j + 1) * 50, fdf, 0x54ff05);
-			if (fdf.map[i][j] > 0 && (j + 1) < mp_hg)
-				drawLine(50 * i, 50 * j, 50 * i, (j + 1) * 50, fdf, 0x54ff05);
-			if (fdf.map[i][j] > 0 && (i + 1) < mp_wd)
-				drawLine(50 * i, 50 * j, 50 * (i + 1), j * 50, fdf, 0x54ff05);
-			if (fdf.map[i][j] > 0 && (i + 1) < mp_wd && (j + 1) < mp_hg)
-				drawLine(50 * i, 50 * j, 50 * (i + 1), (j + 1) * 50, fdf,0x54ff05);
-			if (fdf.map[i][j] <= 0 && (j + 1) < mp_hg)
-				drawLine(50 * i, 50 * j, 50 * i, (j + 1) * 50, fdf, 0xff052f);
+			if(i + 1 < mp_hg)
+				if (fdf.map[i][j] == 0 && fdf.map[i + 1][j + 1] == 0)
+					drawLine(i * 50, j * 50, (i + 1) * 50,(j + 1) * 50, fdf, 0xf50c27);
+			if (i + 1 < mp_hg)
+				if (fdf.map[i][j] == 0 && fdf.map[i + 1][j] == 0)
+					drawLine(i * 50, j * 50, (i + 1) * 50,j * 50, fdf, 0xf50c27);
+			if (fdf.map[i][j] == 0 && fdf.map[i][j + 1] == 0)
+				drawLine(i * 50, j * 50, i * 50,(j + 1) * 50, fdf, 0xf50c27);
 		}
 	}
 	mlx_loop(fdf.mlx_pointer);
