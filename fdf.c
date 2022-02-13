@@ -2,6 +2,35 @@
 #include <stdio.h>
 #include <math.h>
 
+/*char	calcul_hex(long long int val, char chr)
+{
+	if (val >= 10)
+		return ((val - 10) + chr);
+	return (val + '0');
+}
+
+int color_hex(int r, int g, int b)
+{
+	int *hex_color[8];
+	int	i;
+	int	val;
+
+
+	hex_color[0] = 0;
+	hex_color[1] = (int) "x";
+	i = 1;
+	while (i++, i < 8)
+	{
+		if (i < 4)
+		{
+			val = r % 16;
+			r /= 16;
+			hex_color[i] = (int)calcul_hex(val, 'a');
+		}
+	}
+	return (int)(*hex_color);
+}*/
+
 void drawLine(int x1, int y1, int x2, int y2, t_data fdf, int color) 
 {
     const int deltaX = abs(x2 - x1);
@@ -57,14 +86,43 @@ int main(int argc, char **argv)
 		j = -1;
 		while (j++, j < mp_wd)
 		{
-			if(i + 1 < mp_hg)
-				if (fdf.map[i][j] == 0 && fdf.map[i + 1][j + 1] == 0)
-					drawLine(i * 50, j * 50, (i + 1) * 50,(j + 1) * 50, fdf, 0xf50c27);
-			if (i + 1 < mp_hg)
+			if (i + 1 < mp_hg) //отрисовка плоскости на 0
+			{
 				if (fdf.map[i][j] == 0 && fdf.map[i + 1][j] == 0)
 					drawLine(i * 50, j * 50, (i + 1) * 50,j * 50, fdf, 0xf50c27);
-			if (fdf.map[i][j] == 0 && fdf.map[i][j + 1] == 0)
-				drawLine(i * 50, j * 50, i * 50,(j + 1) * 50, fdf, 0xf50c27);
+				if (fdf.map[i][j] > 0 && fdf.map[i + 1][j] > 0 )
+					drawLine(i * 50, j * 50, (i + 1) * 50,j * 50, fdf, 0xd711d0);
+			}
+			if (j + 1 < mp_wd) //отрисока плоскости на 0
+			{
+				if (fdf.map[i][j] == 0 && fdf.map[i][j + 1] == 0)
+					drawLine(i * 50, j * 50, i * 50,(j + 1) * 50, fdf, 0xf50c27);
+				if (fdf.map[i][j] > 0 && fdf.map[i][j + 1] > 0)
+					drawLine(i * 50, j * 50, i * 50,(j + 1) * 50, fdf, 0xd711d0);
+			}
+			if (i + 1 < mp_hg && j + 1 < mp_wd) //отрисовка плоскоти на высоте
+			{
+				if (fdf.map[i][j] == 0 && fdf.map[i + 1][j] > 0)
+					drawLine(i * 50, j * 50, (i + 1) * 50,j * 50, fdf, 0x27f50c);
+				if (fdf.map[i][j] == 0 && fdf.map[i][j + 1] > 0)
+					drawLine(i * 50, j * 50, i * 50,(j + 1) * 50, fdf, 0x27f50c);
+				if (fdf.map[i][j] > 0 && fdf.map[i + 1][j] == 0)
+					drawLine(i * 50, j * 50, (i + 1) * 50,j * 50, fdf, 0x27f50c);
+				if (fdf.map[i][j] > 0 && fdf.map[i][j + 1] == 0)
+					drawLine(i * 50, j * 50, i * 50,(j + 1) * 50, fdf, 0x27f50c);
+				if (fdf.map[i][j] == 0 && fdf.map[i + 1][j] == 0 && fdf.map[i][j + 1] == 0 && fdf.map[i + 1][j + 1] > 0)
+					drawLine(i * 50, j * 50, (i + 1) * 50,(j + 1) * 50, fdf, 0x27f50c);
+				if (fdf.map[i][j] > 0 && fdf.map[i + 1][j] == 0 && fdf.map[i][j + 1] == 0 && fdf.map[i + 1][j + 1] == 0)
+					drawLine(i * 50, j * 50, (i + 1) * 50,(j + 1) * 50, fdf, 0x27f50c);
+				if (fdf.map[i][j] == 0 && fdf.map[i + 1][j] > 0 && fdf.map[i][j + 1] > 0 && fdf.map[i + 1][j + 1] > 0)
+					drawLine(i * 50, j * 50, (i + 1) * 50,(j + 1) * 50, fdf, 0x27f50c);
+				if (fdf.map[i][j] == 0 && fdf.map[i + 1][j] == 0 && fdf.map[i][j + 1] > 0 && fdf.map[i + 1][j + 1] == 0)
+					drawLine((i + 1) * 50,j * 50, i * 50, (j + 1) *50, fdf, 0x27f50c);
+				if (fdf.map[i][j] == 0 && fdf.map[i + 1][j] > 0 && fdf.map[i][j + 1] == 0 && fdf.map[i + 1][j + 1] == 0)
+					drawLine(i * 50,(j + 1) * 50, (i + 1) * 50, j *50, fdf, 0x27f50c);
+				if (fdf.map[i][j] > 0 && fdf.map[i + 1][j] > 0 && fdf.map[i][j + 1] == 0 && fdf.map[i + 1][j + 1] > 0)
+					drawLine(i* 50,(j + 1) * 50, (i + 1) * 50, j *50, fdf, 0x27f50c);
+			}
 		}
 	}
 	mlx_loop(fdf.mlx_pointer);
