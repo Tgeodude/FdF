@@ -1,5 +1,4 @@
 #include "fdf.h"
-#include <stdio.h>
 #include <math.h>
 
 void drawLine(int x1, int y1, int x2, int y2, t_data fdf, int color) 
@@ -13,18 +12,18 @@ void drawLine(int x1, int y1, int x2, int y2, t_data fdf, int color)
 	while(x1 != x2 || y1 != y2) 
    {
 	   mlx_pixel_put(fdf.mlx_pointer,fdf.mlx_window, x1, y1, color);
-        int error2 = error * 2;
-        if(error2 > -deltaY) 
-        {
-            error -= deltaY;
-            x1 += signX;
-        }
-        if(error2 < deltaX) 
-        {
-            error += deltaX;
-            y1 += signY;
-        }
-    }
+	   int error2 = error * 2;
+	   if(error2 > -deltaY)
+	   {
+		   error -= deltaY;
+		   x1 += signX;
+	   }
+	   if(error2 < deltaX) 
+	   {
+		   error += deltaX;
+		   y1 += signY;
+	   }
+   }
 
 }
 
@@ -40,24 +39,11 @@ void	default_settings(t_data *fdf)
 	fdf->scale = 700 / maximum(fdf->height, fdf->width);
 }
 
-int main(int argc, char **argv)
+void	drawMap(t_data fdf)
 {
-	t_data	fdf;
-	int		fd;
-	int	y;
 	int	x;
+	int	y;
 
-	if (argc != 2)
-		write(1, "error\n", 6);
-	fd = open(argv[1], O_RDONLY);
-	fdf = *(t_data *)malloc(sizeof(t_data));
-	fdf.height = map_height(argv[1]);
-	fdf.width = map_width(argv[1]);
-	fdf.map = map_create(argv[1], fdf);
-	default_settings(&fdf);
-	close(fd);
-	fdf.mlx_pointer = mlx_init();
-	fdf.mlx_window = mlx_new_window(fdf.mlx_pointer, 1920, 1080, "Hello world");
 	y = -1;
 	while (y++, y < fdf.height)
 	{
@@ -89,8 +75,28 @@ int main(int argc, char **argv)
 				if (fdf.map[y][x] > 0 && fdf.map[y][x + 1] == 0)
 					drawLine(x * fdf.scale, y * fdf.scale, (x + 1) * fdf.scale, y * fdf.scale, fdf, 0x1cf011);
 			}
-
 		}
 	}
+
+}
+
+int main(int argc, char **argv)
+{
+	t_data	fdf;
+	int		fd;
+
+	if (argc != 2)
+		write(1, "error\n", 6);
+	fd = open(argv[1], O_RDONLY);
+	fdf = *(t_data *)malloc(sizeof(t_data));
+	fdf.height = map_height(argv[1]);
+	fdf.width = map_width(argv[1]);
+	fdf.map = map_create(argv[1], fdf);
+	default_settings(&fdf);
+	close(fd);
+	fdf.mlx_pointer = mlx_init();
+	fdf.mlx_window = mlx_new_window(fdf.mlx_pointer, 1920, 1080, "Hello world");
+	drawMap(fdf);
 	mlx_loop(fdf.mlx_pointer);
 }
+

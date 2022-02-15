@@ -13,6 +13,11 @@ typedef struct s_data {
 	void	*mlx_pointer;
 	void	*mlx_window;
 	int	scale;
+	int	color;
+	int	x1;
+	int	x2;
+	int	y1;
+	int	y2;
 
 } t_data;
 
