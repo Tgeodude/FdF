@@ -18,6 +18,10 @@ typedef struct s_data {
 	int	x2;
 	int	y1;
 	int	y2;
+	int	z;
+	int	z1;
+	float	angle;
+	int	position;
 
 } t_data;
 
