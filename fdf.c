@@ -47,10 +47,10 @@ void	drawMap_color_and_scale(t_data *fdf)
 		fdf->color = 0xd711d0;
 	if ((fdf->z == 0 && fdf->z1 > 0) || (fdf->z > 0 && fdf->z1 == 0))
 		fdf->color = 0x1cf011;
-	fdf->x1 = (fdf->scale * fdf->x1) + (fdf->position * 4);
-	fdf->x2 = (fdf->scale * fdf->x2) + (fdf->position * 4);
-	fdf->y1 = (fdf->scale * fdf->y1) + (fdf->position - 200);
-	fdf->y2 = (fdf->scale * fdf->y2) + (fdf->position - 200);
+	fdf->x1 = (fdf->x1 * fdf->scale);
+	fdf->x2 = (fdf->x2 * fdf->scale);
+	fdf->y1 = (fdf->y1 * fdf->scale);
+	fdf->y2 = (fdf->y2 * fdf->scale);
 }
 
 void	drawMap_flag(int x, int y, int flag, t_data *fdf)
@@ -77,9 +77,9 @@ void	drawMap_flag(int x, int y, int flag, t_data *fdf)
 void	drawMap_pic(t_data *fdf)
 {
 	drawMap_color_and_scale(fdf);
-/*	angle(&fdf->x1,&fdf->y1, fdf->z, fdf);
-	angle(&fdf->x2,&fdf->y2, fdf->z1, fdf);*/
-	drawLine((fdf->x1),(fdf->y1),(fdf->x2),(fdf->y2), fdf, fdf->color);
+	angle(&fdf->x1,&fdf->y1, fdf->z, fdf);
+	angle(&fdf->x2,&fdf->y2, fdf->z1, fdf);
+	drawLine((fdf->x1 + fdf->position_x),(fdf->y1 - fdf->position_y),(fdf->x2 + fdf->position_x),(fdf->y2 - fdf->position_y), fdf, fdf->color);
 }
 
 void	drawMap(t_data *fdf)
@@ -94,11 +94,15 @@ void	drawMap(t_data *fdf)
 		while (x++, x < fdf->width)
 		{
 			if (y + 1 < fdf->height)
+			{
 				drawMap_flag(x, y, 1, fdf);
-			drawMap_pic(fdf);
+				drawMap_pic(fdf);
+			}
 			if (x + 1 < fdf->width)
+			{
 				drawMap_flag(x, y, 0, fdf);
-			drawMap_pic(fdf);
+				drawMap_pic(fdf);
+			}
 		}
 	}
 }
@@ -113,8 +117,20 @@ int	maximum(int a, int b)
 void	default_settings(t_data *fdf)
 {
 	fdf->scale = 550 / maximum(fdf->height, fdf->width);
-	fdf->position = fdf->scale * 3;
+	fdf->position_x = 500;
+	fdf->position_y = -250;
 	fdf->angle = 0.6;
+}
+
+int	key_hook(int key, t_data *fdf)
+{
+	mlx_clear_window(fdf->mlx_pointer, fdf->mlx_window);
+	if (key == 123)
+		fdf->position_x -= 100;
+	if (key == 124)
+		fdf->position_x += 100;
+	drawMap(fdf);
+	return (0);
 }
 
 int main(int argc, char **argv)
@@ -134,5 +150,6 @@ int main(int argc, char **argv)
 	fdf.mlx_pointer = mlx_init();
 	fdf.mlx_window = mlx_new_window(fdf.mlx_pointer, 1920, 1080, "Hello world");
 	drawMap(&fdf);
+	mlx_key_hook(fdf.mlx_window, key_hook, &fdf);
 	mlx_loop(fdf.mlx_pointer);
 }

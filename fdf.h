@@ -21,8 +21,8 @@ typedef struct s_data {
 	int	z;
 	int	z1;
 	float	angle;
-	int	position;
-
+	int	position_x;
+	int	position_y;
 } t_data;
 
 int	**map_create(char *book, t_data fdf);
