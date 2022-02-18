@@ -1,5 +1,6 @@
 #include "fdf.h"
 #include <math.h>
+#include <stdio.h>
 
 void drawLine(int x1, int y1, int x2, int y2, t_data *fdf, int color) 
 {
@@ -43,9 +44,15 @@ void	drawMap_color_and_scale(t_data *fdf)
 
 	if (fdf->z == 0 && fdf->z1 == 0)
 		fdf->color = 0xf01114;
-	if (fdf->z > 0 && fdf->z1 > 0)
+	if (fdf->z > 0 && fdf->z1 == fdf->z && fdf->z < 25)
 		fdf->color = 0xd711d0;
+	if (fdf->z1 == fdf->z && fdf->z > 24)
+		fdf->color = 0x1a0a0a;
 	if ((fdf->z == 0 && fdf->z1 > 0) || (fdf->z > 0 && fdf->z1 == 0))
+		fdf->color = 0x1cf011;
+	if (fdf->z > 0 && fdf->z1 != fdf->z)
+		fdf->color = 0x1cf011;
+	if (fdf->z == 0 && fdf->z1 != fdf->z)
 		fdf->color = 0x1cf011;
 	fdf->x1 = (fdf->x1 * fdf->scale);
 	fdf->x2 = (fdf->x2 * fdf->scale);
@@ -116,20 +123,53 @@ int	maximum(int a, int b)
 
 void	default_settings(t_data *fdf)
 {
-	fdf->scale = 550 / maximum(fdf->height, fdf->width);
+	fdf->scale = 750 / maximum(fdf->height, fdf->width);
 	fdf->position_x = 500;
 	fdf->position_y = -250;
 	fdf->angle = 0.6;
 }
 
+void	movie_hook(int key, t_data *fdf)
+{
+	if (key == 45)
+		fdf->scale /= 2;
+	if (key == 61)
+		fdf->scale *= 2;
+	if (key == 65361)
+		fdf->position_x -= 100;
+	if (key == 65363)
+		fdf->position_x += 100;
+	if (key == 65362)
+		fdf->position_y += 100;
+	if (key == 65364)
+		fdf->position_y -= 100;
+	if (key == 32)
+		fdf->angle += 0.1;
+	if (key == 65307)
+		mlx_destroy_window(fdf->mlx_pointer, fdf->mlx_window);
+	if (fdf->flag_hook == 1)
+		drawRotation(fdf);
+	if (fdf->flag_hook == 0)
+		drawMap(fdf);
+}
+
 int	key_hook(int key, t_data *fdf)
 {
+	printf("%d\n", key);
 	mlx_clear_window(fdf->mlx_pointer, fdf->mlx_window);
-	if (key == 123)
-		fdf->position_x -= 100;
-	if (key == 124)
-		fdf->position_x += 100;
-	drawMap(fdf);
+	if (key == 65506 && fdf->flag_hook == 1)
+	{
+		fdf->flag_hook = 0;
+		mlx_clear_window(fdf->mlx_pointer, fdf->mlx_window);
+		drawMap(fdf);
+	}
+	else if (key == 65506 && fdf->flag_hook == 0)
+	{
+		fdf->flag_hook = 1;
+		mlx_clear_window(fdf->mlx_pointer, fdf->mlx_window);
+		drawRotation(fdf);
+	}
+	movie_hook(key, fdf);
 	return (0);
 }
 
@@ -148,7 +188,8 @@ int main(int argc, char **argv)
 	default_settings(&fdf);
 	close(fd);
 	fdf.mlx_pointer = mlx_init();
-	fdf.mlx_window = mlx_new_window(fdf.mlx_pointer, 1920, 1080, "Hello world");
+	fdf.mlx_window = mlx_new_window(fdf.mlx_pointer, 1920, 1080, "FDF");
+	fdf.flag_hook = 0;
 	drawMap(&fdf);
 	mlx_key_hook(fdf.mlx_window, key_hook, &fdf);
 	mlx_loop(fdf.mlx_pointer);
