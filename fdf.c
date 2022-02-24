@@ -1,7 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tgeodude <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 19:36:09 by tgeodude          #+#    #+#             */
+/*   Updated: 2022/02/24 19:54:45 by tgeodude         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "fdf.h"
-#include <stdio.h>
 
-void	drawMap(t_data *fdf)
+void	drawmap(t_data *fdf)
 {
 	int	x;
 	int	y;
@@ -14,13 +24,13 @@ void	drawMap(t_data *fdf)
 		{
 			if (y + 1 < fdf->height)
 			{
-				drawMap_flag(x, y, 1, fdf);
-				drawMap_pic(fdf);
+				drawmap_flag(x, y, 1, fdf);
+				drawmap_pic(fdf);
 			}
 			if (x + 1 < fdf->width)
 			{
-				drawMap_flag(x, y, 0, fdf);
-				drawMap_pic(fdf);
+				drawmap_flag(x, y, 0, fdf);
+				drawmap_pic(fdf);
 			}
 		}
 	}
@@ -41,62 +51,10 @@ void	default_settings(t_data *fdf)
 	fdf->angle = 0.6;
 }
 
-void	movie_hook(int key, t_data *fdf)
-{
-	if (key == 45)
-		fdf->scale /= 2;
-	if (key == 61)
-		fdf->scale *= 2;
-	if (key == 65361)
-		fdf->position_x -= 100;
-	if (key == 65363)
-		fdf->position_x += 100;
-	if (key == 65362)
-		fdf->position_y += 100;
-	if (key == 65364)
-		fdf->position_y -= 100;
-	if (key == 32)
-		fdf->angle += 0.1;
-	if (key == 65507)
-		fdf->angle = 0.6;
-	if (key == 65307)
-		mlx_destroy_window(fdf->mlx_pointer, fdf->mlx_window);
-	if (fdf->flag_hook == 1)
-		drawRotation(fdf);
-	if (fdf->flag_hook == 0)
-		drawMap(fdf);
-}
-
-int	key_hook(int key, t_data *fdf)
-{
-	printf("%d\n", key);
-	mlx_clear_window(fdf->mlx_pointer, fdf->mlx_window);
-	if (key == 65506 && fdf->flag_hook == 1)
-	{
-		fdf->flag_hook = 0;
-		mlx_clear_window(fdf->mlx_pointer, fdf->mlx_window);
-		drawMap(fdf);
-	}
-	else if (key == 65506 && fdf->flag_hook == 0)
-	{
-		fdf->flag_hook = 1;
-		mlx_clear_window(fdf->mlx_pointer, fdf->mlx_window);
-		drawRotation(fdf);
-	}
-	movie_hook(key, fdf);
-	return (0);
-}
-
-int	exit_hook(t_data *fdf)
-{
-	mlx_destroy_window(fdf->mlx_pointer, fdf->mlx_window);
-	exit(0);
-}
-
 int	main(int argc, char **argv)
 {
 	t_data	fdf;
-	int	fd;
+	int		fd;
 
 	if (argc != 2)
 	{
@@ -110,11 +68,11 @@ int	main(int argc, char **argv)
 	fdf.map = map_create(argv[1], fdf);
 	default_settings(&fdf);
 	close(fd);
-	fdf.mlx_pointer = mlx_init();
-	fdf.mlx_window = mlx_new_window(fdf.mlx_pointer, 1920, 1080, "FDF");
+	fdf.mlx_p = mlx_init();
+	fdf.mlx_w = mlx_new_window(fdf.mlx_p, 1920, 1080, "FDF");
 	fdf.flag_hook = 0;
-	drawMap(&fdf);
-	mlx_hook(fdf.mlx_window, 17, 0, exit_hook, &fdf);
-	mlx_key_hook(fdf.mlx_window, key_hook, &fdf);
-	mlx_loop(fdf.mlx_pointer);
+	drawmap(&fdf);
+	mlx_hook(fdf.mlx_w, 17, 0, exit_hook, &fdf);
+	mlx_key_hook(fdf.mlx_w, key_hook, &fdf);
+	mlx_loop(fdf.mlx_p);
 }

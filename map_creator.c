@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_creator.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tgeodude <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/24 20:06:31 by tgeodude          #+#    #+#             */
+/*   Updated: 2022/02/24 20:06:55 by tgeodude         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "fdf.h"
 
 int	map_width(char *book)
@@ -51,7 +62,7 @@ int	**map_create(char	*book, t_data fdf)
 		map[i] = (int *)malloc(sizeof(int) * fdf.width);
 		str = ft_split(get_next_line(fd), ' ');
 		j = -1;
-		while(j++, str[j])
+		while (j++, str[j])
 			map[i][j] = ft_atoi(str[j]);
 	}
 	close(fd);

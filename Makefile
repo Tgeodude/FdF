@@ -1,18 +1,22 @@
-FLAGS=-Werror -Wextra -Wall -g
+FRAMEWORKS=-framework OpenGL -framework AppKit -L/usr/lib -lmlx
+FLAGS=-Werror -Wextra -Wall
 NAME=fdf
-SRC=*.c
-INCLUDES=libft/libft.a 
+SRCS=*.c
+INCLUDES=libft/libft.a
+HEADER=fdf.h
 
-all:
-		@make -C libft/ all
-		@gcc $(SRC) -lmlx_Linux -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME) $(FLAGS) $(INCLUDES)
+all: $(NAME)
+
+$(NAME): $(HEADER)
+	make -C libft/
+	cc $(SRCS) -o $(NAME) $(FLAGS) -Imlx $(INCLUDES) $(FRAMEWORKS)
 
 clean:
-		@make -C libft/ clean
+	@make -C libft/ clean
 
 fclean: clean
-		@/bin/rm -f $(NAME)
-		@make -C libft/ fclean
+	@rm -rf $(NAME)
+	@make -C libft/ fclean
 
 re: fclean all
 
