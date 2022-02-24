@@ -1,6 +1,6 @@
 #include "fdf.h"
 
-void drawRotation_Line(t_data *fdf, int color) 
+void drawLine(t_data *fdf) 
 {
 
 	fdf->deltaX = abs(fdf->x2 - fdf->x1);
@@ -12,10 +12,10 @@ void drawRotation_Line(t_data *fdf, int color)
 	if (fdf->y1 < fdf->y2)
 		fdf->signY = 1;
 	fdf->error = fdf->deltaX - fdf->deltaY;
-	mlx_pixel_put(fdf->mlx_pointer,fdf->mlx_window, fdf->x2, fdf->y2, color);
+	mlx_pixel_put(fdf->mlx_pointer,fdf->mlx_window, fdf->x2, fdf->y2, fdf->color);
 	while(fdf->x1 != fdf->x2 || fdf->y1 != fdf->y2)
 	{
-		mlx_pixel_put(fdf->mlx_pointer,fdf->mlx_window, fdf->x1, fdf->y1, color);
+		mlx_pixel_put(fdf->mlx_pointer,fdf->mlx_window, fdf->x1, fdf->y1, fdf->color);
 		fdf->error2 = fdf->error * 2;
 		if (fdf->error2 > -fdf->deltaY)
 		{
@@ -30,10 +30,20 @@ void drawRotation_Line(t_data *fdf, int color)
 	}
 }
 
-void	drawRotation_color_and_scale(t_data *fdf)
+void	angle(int *x, int *y, int z, t_data *fdf)
 {
+	float	temp_x;
+	float	temp_y;
 
-	if (fdf->z == 0 && fdf->z1 == 0)
+	temp_x = *x;
+	temp_y = *y;
+	*x = (temp_x - temp_y) * cos(fdf->angle);
+	*y = (temp_x + temp_y) * sin(fdf->angle) - z;
+}
+
+void	drawMap_color_and_scale(t_data *fdf)
+{
+       	if (fdf->z == 0 && fdf->z1 == 0)
 		fdf->color = 0xf01114;
 	if (fdf->z > 0 && fdf->z1 > 0)
 		fdf->color = 0xd711d0;
@@ -45,7 +55,7 @@ void	drawRotation_color_and_scale(t_data *fdf)
 	fdf->y2 = (fdf->y2 * fdf->scale);
 }
 
-void	drawRotation_flag(int x, int y, int flag, t_data *fdf)
+void	drawMap_flag(int x, int y, int flag, t_data *fdf)
 {
 	
 	fdf->x1 = (x);
@@ -66,37 +76,15 @@ void	drawRotation_flag(int x, int y, int flag, t_data *fdf)
 
 }
 
-void	drawRotation_pic(t_data *fdf)
+void	drawMap_pic(t_data *fdf)
 {
-	drawRotation_color_and_scale(fdf);
+	drawMap_color_and_scale(fdf);
+	angle(&fdf->x1,&fdf->y1, fdf->z, fdf);
+	angle(&fdf->x2,&fdf->y2, fdf->z1, fdf);	
 	fdf->x1 += fdf->position_x;
 	fdf->x2 += fdf->position_x;	
 	fdf->y1 -= fdf->position_y;
 	fdf->y2 -= fdf->position_y;
-	drawRotation_Line(fdf, fdf->color);
+	drawLine(fdf);
 }
 
-void	drawRotation(t_data *fdf)
-{
-	int	x;
-	int	y;
-
-	y = -1;
-	while (y++, y < fdf->height)
-	{
-		x = -1;
-		while (x++, x < fdf->width)
-		{
-			if (y + 1 < fdf->height)
-			{
-				drawRotation_flag(x, y, 1, fdf);
-				drawRotation_pic(fdf);
-			}
-			if (x + 1 < fdf->width)
-			{
-				drawRotation_flag(x, y, 0, fdf);
-				drawRotation_pic(fdf);
-			}
-		}
-	}
-}
