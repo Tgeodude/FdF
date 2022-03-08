@@ -34,28 +34,39 @@ void	movie_hook(int key, t_data *fdf)
 		mlx_destroy_window(fdf->mlx_p, fdf->mlx_w);
 		exit(0);
 	}
-	if (fdf->flag_hook == 1)
-		drawrotation(fdf);
-	if (fdf->flag_hook == 0)
-		drawmap(fdf);
+	if (key == 18)
+		fdf->angle_x += 0.05;
+	if (key == 19)
+		fdf->angle_x -= 0.05;
+	if (key == 20)
+		fdf->angle_y += 0.05;
+	if (key == 21)
+		fdf->angle_y -= 0.05;
+	if (key == 22)
+		fdf->angle_z += 0.05;
+	if (key == 23)
+		fdf->angle_z -= 0.05;
 }
 
 int	key_hook(int key, t_data *fdf)
 {
-	mlx_clear_window(fdf->mlx_p, fdf->mlx_w);
-	if (key == 258 && fdf->flag_hook == 1)
+	mlx_destroy_image(fdf->mlx_p, fdf->img);
+	fdf->img = mlx_new_image(fdf->mlx_p, 1920, 1080);
+	fdf->addres = mlx_get_data_addr(fdf->img, &fdf->bits_per_pixel, &fdf->line_length, &fdf->endian);
+	/*if (key == 258 && fdf->flag_hook == 1)
 	{
 		fdf->flag_hook = 0;
-		mlx_clear_window(fdf->mlx_p, fdf->mlx_w);
 		drawmap(fdf);
 	}
 	else if (key == 258 && fdf->flag_hook == 0)
 	{
 		fdf->flag_hook = 1;
-		mlx_clear_window(fdf->mlx_p, fdf->mlx_w);
 		drawrotation(fdf);
-	}
+	}*/
 	movie_hook(key, fdf);
+	printf("%i\n", key);
+	drawmap(fdf);
+	mlx_put_image_to_window(fdf->mlx_p, fdf->mlx_w, fdf->img, 0, 0);
 	return (0);
 }
 

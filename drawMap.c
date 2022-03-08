@@ -22,10 +22,12 @@ void	drawline(t_data *fdf)
 	if (fdf->y1 < fdf->y2)
 		fdf->signy = 1;
 	fdf->error = fdf->deltax - fdf->deltay;
-	mlx_pixel_put(fdf->mlx_p, fdf->mlx_w, fdf->x2, fdf->y2, fdf->color);
+	if (dis_check(fdf->x2, fdf->y2) == 0)
+		my_pixel_put(fdf, fdf->x2, fdf->y2, fdf->color_2);
 	while (fdf->x1 != fdf->x2 || fdf->y1 != fdf->y2)
 	{
-		mlx_pixel_put(fdf->mlx_p, fdf->mlx_w, fdf->x1, fdf->y1, fdf->color);
+		if (dis_check(fdf->x1, fdf->y1) == 0)
+			my_pixel_put(fdf, fdf->x1, fdf->y1, fdf->color_1);
 		fdf->error2 = fdf->error * 2;
 		if (fdf->error2 > -fdf->deltay)
 		{
@@ -50,21 +52,43 @@ void	angle(int *x, int *y, int z, t_data *fdf)
 	*x = (temp_x - temp_y) * cos(fdf->angle);
 	*y = (temp_x + temp_y) * sin(fdf->angle) - z;
 }
+int	color_or_hex(t_data *fdf, int x, int y)
+{
+	if (fdf->flag_hex_map == 0 && fdf->flag_map_color)
+		return(fdf->main_color);
+	else if (fdf->flag_hex_map == 1 && !fdf->flag_map_color)
+		return (fdf->map_hex[x][y]);
+	else if (fdf->z == 0 && fdf->z1 == 0)
+		return (0xff0000);
+	else if (fdf->z > 0 && fdf->z1 > 0)
+		return (0xd711d0);
+	else if ((fdf->z == 0 && fdf->z1 > 0) || (fdf->z > 0 && fdf->z1 == 0))
+		return (0x1cf011);
+	return (0);
+}
 
 void	drawmap_color_and_scale(t_data *fdf)
 {
-	if (fdf->z == 0 && fdf->z1 == 0)
-		fdf->color = 0xf01114;
-	if (fdf->z > 0 && fdf->z1 > 0)
-		fdf->color = 0xd711d0;
-	if ((fdf->z == 0 && fdf->z1 > 0) || (fdf->z > 0 && fdf->z1 == 0))
-		fdf->color = 0x1cf011;
+	fdf->color_2 = color_or_hex(fdf, fdf->x2, fdf->y1);
+	fdf->color_1 = color_or_hex(fdf, fdf->x2, fdf->y1);
+	fdf->y_1 = fdf->y1;
+	fdf->y_2 = fdf->y2;
 	fdf->x1 = (fdf->x1 * fdf->scale);
 	fdf->x2 = (fdf->x2 * fdf->scale);
 	fdf->y1 = (fdf->y1 * fdf->scale);
 	fdf->y2 = (fdf->y2 * fdf->scale);
+	if (fdf->z >= 50 || fdf->z <= -50)
+		fdf->z /= 2;
+	if (fdf->z1 >= 50 || fdf->z1 <= -50)
+		fdf->z1 /= 2;
+	if (!(fdf->z >= -9 && fdf->z <= 9))
+		fdf->z /= 10;
+	if (!(fdf->z1 >= -9 && fdf->z1 <= 9))
+		fdf->z1 /= 10;
+	fdf->z = (fdf->z * (fdf->scale_z));
+	fdf->z1 = (fdf->z1 * (fdf->scale_z));
+	shift(fdf);
 }
-
 void	drawmap_flag(int x, int y, int flag, t_data *fdf)
 {
 	fdf->x1 = (x);
@@ -87,8 +111,8 @@ void	drawmap_flag(int x, int y, int flag, t_data *fdf)
 void	drawmap_pic(t_data *fdf)
 {
 	drawmap_color_and_scale(fdf);
-	angle(&fdf->x1, &fdf->y1, fdf->z, fdf);
-	angle(&fdf->x2, &fdf->y2, fdf->z1, fdf);
+	/*angle(&fdf->x1, &fdf->y1, fdf->z, fdf);
+	angle(&fdf->x2, &fdf->y2, fdf->z1, fdf);*/
 	fdf->x1 += fdf->position_x;
 	fdf->x2 += fdf->position_x;
 	fdf->y1 -= fdf->position_y;
