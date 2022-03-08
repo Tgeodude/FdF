@@ -63,6 +63,8 @@ typedef struct s_data {
 	int			y_1;
 	int			x_2;
 	int			y_2;
+	int			size_color;
+	int			s_c_c;
 }	t_data;
 
 int		**map_create(char *book, t_data fdf);

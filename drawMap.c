@@ -52,17 +52,27 @@ void	angle(int *x, int *y, int z, t_data *fdf)
 	*x = (temp_x - temp_y) * cos(fdf->angle);
 	*y = (temp_x + temp_y) * sin(fdf->angle) - z;
 }
+
+int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
 int	color_or_hex(t_data *fdf, int x, int y)
 {
-	if (fdf->flag_hex_map == 0 && fdf->flag_map_color)
+	if (fdf->flag_hex_map > 0 && fdf->flag_map_color)
 		return(fdf->main_color);
-	else if (fdf->flag_hex_map == 1 && !fdf->flag_map_color)
+	if (fdf->flag_hex_map == 1 && !fdf->flag_map_color)
 		return (fdf->map_hex[x][y]);
-	else if (fdf->z == 0 && fdf->z1 == 0)
+	if (fdf->z == 0 && fdf->z1 == 0)
 		return (0xff0000);
-	else if (fdf->z > 0 && fdf->z1 > 0)
+	if ((fdf->z > 0 && fdf->z1 > 0) || (fdf->z < 0 && fdf->z1 < 0))
 		return (0xd711d0);
-	else if ((fdf->z == 0 && fdf->z1 > 0) || (fdf->z > 0 && fdf->z1 == 0))
+	if ((fdf->z == 0 && fdf->z1 > 0) || (fdf->z > 0 && fdf->z1 == 0))
+		return (0x1cf011);
+	if ((fdf->z == 0 && fdf->z1 < 0) || (fdf->z < 0 && fdf->z1 == 0))
+		return (0x1cf011);
+	if ((fdf->z > 0 && fdf->z1 < 0) || (fdf->z < 0 && fdf->z1 > 0))
 		return (0x1cf011);
 	return (0);
 }
@@ -111,8 +121,8 @@ void	drawmap_flag(int x, int y, int flag, t_data *fdf)
 void	drawmap_pic(t_data *fdf)
 {
 	drawmap_color_and_scale(fdf);
-	/*angle(&fdf->x1, &fdf->y1, fdf->z, fdf);
-	angle(&fdf->x2, &fdf->y2, fdf->z1, fdf);*/
+	angle(&fdf->x1, &fdf->y1, fdf->z, fdf);
+	angle(&fdf->x2, &fdf->y2, fdf->z1, fdf);
 	fdf->x1 += fdf->position_x;
 	fdf->x2 += fdf->position_x;
 	fdf->y1 -= fdf->position_y;

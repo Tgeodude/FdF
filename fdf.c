@@ -47,8 +47,8 @@ void	default_settings(t_data *fdf)
 {
 	fdf->scale = 550 / maximum(fdf->height, fdf->width);
 	fdf->scale_z = fdf->scale;
-	fdf->position_x = 0;
-	fdf->position_y = 0;
+	fdf->position_x = 750;
+	fdf->position_y = -300;
 	fdf->angle = 0.6;
 	fdf->angle_x = 0;
 	fdf->angle_y = 0;
@@ -71,7 +71,7 @@ int	main(int argc, char **argv)
     fdf.flag_hex_map = check_map_on_hex(argv[1], &fdf);
 	if (fdf.flag_hex_map == 1 && !fdf.flag_map_color)
         fdf.map_hex = map_parse(argv[1], &fdf);
-    if (fdf.flag_hex_map == 0 && fdf.flag_map_color)
+    if (fdf.flag_hex_map > 1 && fdf.flag_map_color)
         fdf.main_color = fdf.flag_hex_map;
 	default_settings(&fdf);
 	close(fd);
