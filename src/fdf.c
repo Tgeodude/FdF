@@ -46,7 +46,6 @@ int	maximum(int a, int b)
 void	default_settings(t_data *fdf)
 {
 	fdf->scale = 550 / maximum(fdf->height, fdf->width);
-	fdf->scale_z = fdf->scale;
 	fdf->position_x = 750;
 	fdf->position_y = -300;
 	fdf->angle = 0.6;

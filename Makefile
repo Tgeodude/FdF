@@ -3,7 +3,7 @@ NAME		= fdf
 MAKE		= make
 
 #COMP USE CC INSTEAD?!?!??!
-CC			= gcc
+CC			= cc
 CFLAGS		= -Wall -Wextra -Werror
 
 #LIBFT
