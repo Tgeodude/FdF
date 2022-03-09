@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
-# include "MLX/mlx.h"
+#ifndef FDF_BONUS_H
+# define FDF_BONUS_H
+# include "../MLX/mlx.h"
 # include <fcntl.h>
 # include "get_next_line.h"
-# include "libft/libft.h"
-# include "MLX/mlx.h"
+# include "../libft/libft.h"
+# include "../MLX/mlx.h"
 # include "math.h"
 
 typedef struct s_data {
@@ -70,11 +70,6 @@ typedef struct s_data {
 int		**map_create(char *book, t_data fdf);
 int		map_height(char *book);
 int		map_width(char *book);
-void	drawrotation(t_data *fdf);
-void	drawrotation_pic(t_data *fdf);
-void	drawrotation_flag(int x, int y, int flag, t_data *fdf);
-void	drawrotation_color_and_scale(t_data *fdf);
-void	drawrotation_line(t_data *fdf, int color);
 void	drawline(t_data *fdf);
 void	angle(int *x, int *y, int z, t_data *fdf);
 void	drawmap_color_and_scale(t_data *fdf);
@@ -95,8 +90,8 @@ int		check_map_color(t_data *fdf, char *s);
 int		check_map_on_hex(char *book, t_data *fdf);
 int		dec_hex_ab(char c);
 int		dec_hex(char c);
-int		convert_int(char *s);
-int		map_contein_color(char *s);
+int		convert_int(char *s, int size);
+int		map_contein_color(char *s, int place);
 int		**map_parse(char  *book, t_data *fdf);
 int		color_or_hex(t_data *fdf, int x, int y);
 

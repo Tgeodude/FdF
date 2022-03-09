@@ -19,7 +19,7 @@ int    check_map_color(t_data *fdf, char *s)
     while (j++, s[i + j] != ' ')
         s1[j] = s[i + j];
     fdf->flag_map_color = 1;
-    color = convert_int(s1);
+    color = convert_int(s1, j);
     free(s1);
     return (color);
 }
@@ -102,18 +102,16 @@ int dec_hex(char c)
     return (dec_hex_ab(c));
 }
 
-int convert_int(char *s)
+int convert_int(char *s, int size)
 {
     int i;
     int hex;
     int dec;
 
-    i = 0;
+    i = -1;
     dec = 0;
     hex = 1;
-    while (s[i])
-        i++;
-    while (i--, i != 0)
+    while (size--, size != 0)
         hex *= 16;
     while (i++, s[i])
     {
@@ -123,27 +121,38 @@ int convert_int(char *s)
     return (dec);
 }
 
-int   map_contein_color(char *s)
+int   map_contein_color(char *s, int place)
 {
     char    *s1;
-    int     n;
     int     n1;
     int     j;
-    int     i;
+    int     size;
 
     j = 0;
-    while (s[j] != 'x' && s[j])
+    while (s[j + place] != ' ' && s[j + place] != '\0')
         j++;
-    n = 0;
-    while (s[j + n] != ' ' && s[j + n])
-        n++;
-    s1 = malloc(sizeof(char) * (n - 1));
+    size = j;
+    s1 = malloc(sizeof(char) * j);
     n1 = -1;
-    while (j++, ++n1 < (n - 1))
-        s1[n1] = s[j];
-    i = convert_int(s1);
+    j = -1;
+    while (j++, ++n1 < size)
+        s1[n1] = s[j + place];
+    size = convert_int(s1, size);
     free(s1);
-    return (i);
+    return (size);
+}
+
+int     found_hex(char *s)
+{
+    int i;
+    int count;
+    
+    i = -1;
+    count = 0;
+    while (i++, s[i])
+        if (s[i] == 'x')
+            count++;
+    return (count);
 }
 
 int    **map_parse(char  *book, t_data *fdf)
@@ -154,20 +163,27 @@ int    **map_parse(char  *book, t_data *fdf)
     int             j;
     int             a;
     int            **map_hex;
+    int             count;
 
     fd = open(book, O_RDONLY);
     map_hex = (int**)malloc(sizeof(int*) * fdf->height);
     i = -1;
     while (i++, i < fdf->height)
     {
-        j = -1;
         s = get_next_line(fd);
         a = 0;
+        j = 0;
         map_hex[i] = malloc(sizeof(int) * fdf->width);
-        while (j++, j < fdf->width)
+        count = found_hex(s);
+        while (a < fdf->width)
         {
-            map_hex[i][a] = map_contein_color(s);
+            while (s[j] != 'x')
+                j++;
+            j++;
+            map_hex[i][a] = map_contein_color(s, j);
             a++;
+            while (s[j] != ' ' && a < fdf->width)
+                j++;
         }
         free(s);
     }

@@ -83,6 +83,5 @@ int	main(int argc, char **argv)
 	drawmap(&fdf);
 	mlx_put_image_to_window(fdf.mlx_p, fdf.mlx_w, fdf.img, 0, 0);
 	mlx_hook(fdf.mlx_w, 17, 0, exit_hook, &fdf);
-	mlx_hook(fdf.mlx_w, 2, 0, key_hook, &fdf);
 	mlx_loop(fdf.mlx_p);
 }

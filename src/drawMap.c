@@ -79,8 +79,8 @@ int	color_or_hex(t_data *fdf, int x, int y)
 
 void	drawmap_color_and_scale(t_data *fdf)
 {
-	fdf->color_2 = color_or_hex(fdf, fdf->x2, fdf->y1);
-	fdf->color_1 = color_or_hex(fdf, fdf->x2, fdf->y1);
+	fdf->color_2 = color_or_hex(fdf, fdf->x2, fdf->y2);
+	fdf->color_1 = color_or_hex(fdf, fdf->x1, fdf->y1);
 	fdf->y_1 = fdf->y1;
 	fdf->y_2 = fdf->y2;
 	fdf->x1 = (fdf->x1 * fdf->scale);

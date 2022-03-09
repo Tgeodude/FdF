@@ -9,7 +9,7 @@
 /*   Updated: 2022/02/24 20:00:15 by tgeodude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "fdf.h"
+#include "fdf_bonus.h"
 
 void	movie_hook(int key, t_data *fdf)
 {
@@ -53,16 +53,6 @@ int	key_hook(int key, t_data *fdf)
 	mlx_destroy_image(fdf->mlx_p, fdf->img);
 	fdf->img = mlx_new_image(fdf->mlx_p, 1920, 1080);
 	fdf->addres = mlx_get_data_addr(fdf->img, &fdf->bits_per_pixel, &fdf->line_length, &fdf->endian);
-	/*if (key == 258 && fdf->flag_hook == 1)
-	{
-		fdf->flag_hook = 0;
-		drawmap(fdf);
-	}
-	else if (key == 258 && fdf->flag_hook == 0)
-	{
-		fdf->flag_hook = 1;
-		drawrotation(fdf);
-	}*/
 	movie_hook(key, fdf);
 	printf("%i\n", key);
 	drawmap(fdf);
