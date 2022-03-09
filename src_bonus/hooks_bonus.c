@@ -6,14 +6,15 @@
 /*   By: tgeodude <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 20:00:13 by tgeodude          #+#    #+#             */
-/*   Updated: 2022/02/24 20:00:15 by tgeodude         ###   ########.fr       */
+/*   Updated: 2022/03/09 15:13:20 by tgeodude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "fdf_bonus.h"
 
 void	movie_hook(int key, t_data *fdf)
 {
-	if (key == 27)
+	if (key == 27 && fdf->scale > 3)
 		fdf->scale /= 2;
 	if (key == 24)
 		fdf->scale *= 2;
@@ -25,10 +26,10 @@ void	movie_hook(int key, t_data *fdf)
 		fdf->position_y += 100;
 	if (key == 125)
 		fdf->position_y -= 100;
-	if (key == 49)
-		fdf->angle += 0.1;
-	if (key == 256)
-		fdf->angle = 0.6;
+	if (key == 33 && fdf->scale_z > 2)
+		fdf->scale_z /= 2;
+	if (key == 30)
+		fdf->scale_z *= 2;
 	if (key == 53)
 	{
 		mlx_destroy_window(fdf->mlx_p, fdf->mlx_w);
@@ -51,10 +52,9 @@ void	movie_hook(int key, t_data *fdf)
 int	key_hook(int key, t_data *fdf)
 {
 	mlx_destroy_image(fdf->mlx_p, fdf->img);
-	fdf->img = mlx_new_image(fdf->mlx_p, 1920, 1080);
+	fdf->img = mlx_new_image(fdf->mlx_p, 2560, 1600);
 	fdf->addres = mlx_get_data_addr(fdf->img, &fdf->bits_per_pixel, &fdf->line_length, &fdf->endian);
 	movie_hook(key, fdf);
-	printf("%i\n", key);
 	drawmap(fdf);
 	mlx_put_image_to_window(fdf->mlx_p, fdf->mlx_w, fdf->img, 0, 0);
 	return (0);

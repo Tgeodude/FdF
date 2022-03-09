@@ -4,7 +4,7 @@ MAKE		= make
 
 #COMP USE CC INSTEAD?!?!??!
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g
 
 #LIBFT
 LIBFT_DIR	= libft
@@ -43,7 +43,7 @@ SRC_BON		= $(SRC_BON_DIR)/fdf_bonus.c  \
 INC_DIR		= inc
 INC			= $(INC_DIR) fdf.h
 INC_BON_DIR		= inc_bonus
-INC_BON		= $(INC_BON_DIR) fdf.h
+INC_BON		= $(INC_BON_DIR) fdf_bonus.h
 
 #OBJ
 OBJ_DIR		= obj

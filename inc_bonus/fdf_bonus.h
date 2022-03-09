@@ -67,9 +67,9 @@ typedef struct s_data {
 	int			s_c_c;
 }	t_data;
 
-int		**map_create(char *book, t_data fdf);
-int		map_height(char *book);
-int		map_width(char *book);
+void	map_create(char *file, t_data *fdf);
+int		map_height(char *file);
+int		map_width(char *file);
 void	drawline(t_data *fdf);
 void	angle(int *x, int *y, int z, t_data *fdf);
 void	drawmap_color_and_scale(t_data *fdf);
@@ -92,7 +92,7 @@ int		dec_hex_ab(char c);
 int		dec_hex(char c);
 int		convert_int(char *s, int size);
 int		map_contein_color(char *s, int place);
-int		**map_parse(char  *book, t_data *fdf);
+void    map_parse(char  *book, t_data *fdf);
 int		color_or_hex(t_data *fdf, int x, int y);
 
 #endif

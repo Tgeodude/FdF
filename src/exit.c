@@ -1,7 +1,11 @@
 #include "fdf.h"
 
-int	exit_hook(t_data *fdf)
+int	key_hook(int key, t_data *fdf)
 {
-	mlx_destroy_window(fdf->mlx_p, fdf->mlx_w);
-	exit(0);
+	if (key == 53)
+	{
+		mlx_destroy_window(fdf->mlx_p, fdf->mlx_w);
+		exit(0);
+	}
+	return (0);
 }

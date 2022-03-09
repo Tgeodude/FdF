@@ -26,20 +26,31 @@ int    check_map_color(t_data *fdf, char *s)
 
 int check_map_on_hex(char *book, t_data *fdf)
 {
-    int     fd;
+    int fd;
     char    *s;
     int     j;
+    int     mach;
+    int     i;
 	
     fd = open(book, O_RDONLY);
-    s = get_next_line(fd);
     j = -1;
     while (j++, j < (fdf->height - 1))
     {
         s = get_next_line(fd);
-        if (ft_strchr(s, 'x') && j == 0)
+        i = -1;
+        while (s[i] != 'x' && (s[i] != '\n' && s[i] != '\0'))
+            i++;
+        if (j == 0 && s[i] == 'x')
+        {
+            free(s);
             return (1);
-        if (ft_strchr(s, 'x') && j > 0)
-            return (check_map_color(fdf, s));
+        }
+        if (j > 0 && s[i] == 'x')
+        {
+            mach = check_map_color(fdf, s);
+            free(s);
+            return (mach);
+        }
         free(s);
     }
     close(fd);
@@ -155,32 +166,31 @@ int     found_hex(char *s)
     return (count);
 }
 
-int    **map_parse(char  *book, t_data *fdf)
+void    map_parse(char  *book, t_data *fdf)
 {
     char            *s;
     int             fd;
     int             i;
     int             j;
     int             a;
-    int            **map_hex;
     int             count;
 
     fd = open(book, O_RDONLY);
-    map_hex = (int**)malloc(sizeof(int*) * fdf->height);
+    fdf->map_hex = (int**)malloc(sizeof(int*) * fdf->height);
     i = -1;
     while (i++, i < fdf->height)
     {
         s = get_next_line(fd);
         a = 0;
         j = 0;
-        map_hex[i] = malloc(sizeof(int) * fdf->width);
+        fdf->map_hex[i] = malloc(sizeof(int) * fdf->width);
         count = found_hex(s);
         while (a < fdf->width)
         {
             while (s[j] != 'x')
                 j++;
             j++;
-            map_hex[i][a] = map_contein_color(s, j);
+            fdf->map_hex[i][a] = map_contein_color(s, j);
             a++;
             while (s[j] != ' ' && a < fdf->width)
                 j++;
@@ -188,5 +198,4 @@ int    **map_parse(char  *book, t_data *fdf)
         free(s);
     }
     close(fd);
-    return (map_hex);
 }

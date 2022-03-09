@@ -42,11 +42,6 @@ void	angle(int *x, int *y, int z, t_data *fdf)
 	*y = (temp_x + temp_y) * sin(fdf->angle) - z;
 }
 
-int	create_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
-}
-
 int	color_or_hex(t_data *fdf, int x, int y)
 {
 	if (fdf->flag_hex_map > 0 && fdf->flag_map_color)
@@ -84,6 +79,8 @@ void	drawmap_color_and_scale(t_data *fdf)
 		fdf->z /= 10;
 	if (!(fdf->z1 >= -9 && fdf->z1 <= 9))
 		fdf->z1 /= 10;
+	fdf->z *= (fdf->scale_z * (fdf->scale));
+    fdf->z1 *= (fdf->scale_z * (fdf->scale));
 	shift(fdf);
 }
 void	drawmap_flag(int x, int y, int flag, t_data *fdf)
@@ -108,8 +105,6 @@ void	drawmap_flag(int x, int y, int flag, t_data *fdf)
 void	drawmap_pic(t_data *fdf)
 {
 	drawmap_color_and_scale(fdf);
-    fdf->z = (fdf->z * (fdf->scale));
-    fdf->z1 = (fdf->z1 * (fdf->scale));
 	angle(&fdf->x1, &fdf->y1, fdf->z, fdf);
 	angle(&fdf->x2, &fdf->y2, fdf->z1, fdf);
 	fdf->x1 += fdf->position_x;
