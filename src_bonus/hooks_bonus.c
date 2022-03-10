@@ -47,6 +47,10 @@ void	movie_hook(int key, t_data *fdf)
 		fdf->angle_z += 0.05;
 	if (key == 23)
 		fdf->angle_z -= 0.05;
+	if (key == 256 && fdf->flag_rot == 1)
+		fdf->flag_rot = 0;
+	else if (key == 256 && fdf->flag_rot == 0)
+		fdf->flag_rot = 1;
 }
 
 int	key_hook(int key, t_data *fdf)
@@ -55,7 +59,10 @@ int	key_hook(int key, t_data *fdf)
 	fdf->img = mlx_new_image(fdf->mlx_p, 2560, 1600);
 	fdf->addres = mlx_get_data_addr(fdf->img, &fdf->bits_per_pixel, &fdf->line_length, &fdf->endian);
 	movie_hook(key, fdf);
-	drawmap(fdf);
+	if (fdf->flag_rot == 0)
+		drawmap(fdf);
+	if (fdf->flag_rot == 1)
+		drawrotation(fdf);
 	mlx_put_image_to_window(fdf->mlx_p, fdf->mlx_w, fdf->img, 0, 0);
 	return (0);
 }

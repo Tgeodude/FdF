@@ -41,6 +41,8 @@ void	default_settings(t_data *fdf)
 	fdf->angle_x = 0;
 	fdf->angle_y = 0;
 	fdf->angle_z = 0;
+	fdf->scale_z = 1;
+	fdf->flag_rot = 0;
 }
 
 void    set_def(t_data *fdf, int argc, char **argv)

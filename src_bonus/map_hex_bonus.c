@@ -21,23 +21,22 @@ int    check_map_color(t_data *fdf, char *s)
     fdf->flag_map_color = 1;
     color = convert_int(s1, j);
     free(s1);
-    free(s);
     return (color);
 }
 
 int check_map_on_hex(char *book, t_data *fdf)
 {
     int fd;
+    char    *s;
     int     j;
     int     mach;
-    char    *s;
 	
     fd = open(book, O_RDONLY);
     j = -1;
     while (j++, j < (fdf->height - 1))
     {
         s = get_next_line(fd);
-        if (ft_strchr(s, 'x') && j == 0)
+        if (j == 0 && ft_strchr(s, 'x'))
         {
             free(s);
             return (1);

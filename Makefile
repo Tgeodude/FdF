@@ -37,6 +37,7 @@ SRC_BON		= $(SRC_BON_DIR)/fdf_bonus.c  \
 			$(SRC_BON_DIR)/map_creator_bonus.c \
 			$(SRC_BON_DIR)/map_hex_bonus.c \
 			$(SRC_BON_DIR)/validation_bonus.c \
+			$(SRC_BON_DIR)/drawRotation_bonus.c \
 
 
 #INC

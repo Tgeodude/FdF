@@ -63,7 +63,7 @@ void	rotate_z(t_data *fdf)
 
 int	dis_check(int x, int y)
 {
-	if (x >= 1920 || y >= 1080)
+	if (x >= 2560 || y >= 1600)
 		return (-1);
 	if (x < 0 || y < 0)
 		return (-1);

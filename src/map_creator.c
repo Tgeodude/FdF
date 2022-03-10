@@ -75,6 +75,7 @@ void	map_create_parse(char *str, int i, t_data *fdf)
 	}
 	if (j < fdf->width)
 	{
+		write(1, "Error\n", 6);
 		exit (0);
 	}
 	free_line(big_str);

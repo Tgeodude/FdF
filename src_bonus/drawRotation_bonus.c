@@ -1,6 +1,6 @@
 #include "fdf_bonus.h"
 
-void	drawline(t_data *fdf)
+void	drawline_rot(t_data *fdf)
 {
 	fdf->deltax = abs(fdf->x2 - fdf->x1);
 	fdf->deltay = abs(fdf->y2 - fdf->y1);
@@ -31,18 +31,7 @@ void	drawline(t_data *fdf)
 	}
 }
 
-void	angle(int *x, int *y, int z, t_data *fdf)
-{
-	float	temp_x;
-	float	temp_y;
-
-	temp_x = *x;
-	temp_y = *y;
-	*x = (temp_x - temp_y) * cos(fdf->angle);
-	*y = (temp_x + temp_y) * sin(fdf->angle) - z;
-}
-
-int	color_or_hex(t_data *fdf, int x, int y)
+int	color_or_hex_rot(t_data *fdf, int x, int y)
 {
 	if (fdf->flag_hex_map > 0 && fdf->flag_map_color)
 		return(fdf->main_color);
@@ -61,10 +50,10 @@ int	color_or_hex(t_data *fdf, int x, int y)
 	return (0);
 }
 
-void	drawmap_color_and_scale(t_data *fdf)
+void	drawmap_color_and_scale_rot(t_data *fdf)
 {
-	fdf->color_2 = color_or_hex(fdf, fdf->x2, fdf->y2);
-	fdf->color_1 = color_or_hex(fdf, fdf->x1, fdf->y1);
+	fdf->color_2 = color_or_hex_rot(fdf, fdf->x2, fdf->y2);
+	fdf->color_1 = color_or_hex_rot(fdf, fdf->x1, fdf->y1);
     fdf->x1 = (fdf->x1 * fdf->scale);
 	fdf->x2 = (fdf->x2 * fdf->scale);
 	fdf->y1 = (fdf->y1 * fdf->scale);
@@ -81,10 +70,8 @@ void	drawmap_color_and_scale(t_data *fdf)
 		fdf->z1 /= 10;
 	fdf->z *= (fdf->scale_z * (fdf->scale));
     fdf->z1 *= (fdf->scale_z * (fdf->scale));
-	if (fdf->flag_rot  == 0)
-		shift(fdf);
 }
-void	drawmap_flag(int x, int y, int flag, t_data *fdf)
+void	drawmap_flag_rot(int x, int y, int flag, t_data *fdf)
 {
 	fdf->x1 = (x);
 	fdf->y1 = (y);
@@ -103,14 +90,37 @@ void	drawmap_flag(int x, int y, int flag, t_data *fdf)
 	}
 }
 
-void	drawmap_pic(t_data *fdf)
+void	drawmap_pic_rot(t_data *fdf)
 {
 	drawmap_color_and_scale(fdf);
-	angle(&fdf->x1, &fdf->y1, fdf->z, fdf);
-	angle(&fdf->x2, &fdf->y2, fdf->z1, fdf);
 	fdf->x1 += fdf->position_x;
 	fdf->x2 += fdf->position_x;
 	fdf->y1 -= fdf->position_y;
 	fdf->y2 -= fdf->position_y;
 	drawline(fdf);
+}
+
+void	drawrotation(t_data *fdf)
+{
+	int	x;
+	int	y;
+
+	y = -1;
+	while (y++, y < fdf->height)
+	{
+		x = -1;
+		while (x++, x < fdf->width)
+		{
+			if (y + 1 < fdf->height)
+			{
+				drawmap_flag_rot(x, y, 1, fdf);
+				drawmap_pic_rot(fdf);
+			}
+			if (x + 1 < fdf->width)
+			{
+				drawmap_flag_rot(x, y, 0, fdf);
+				drawmap_pic_rot(fdf);
+			}
+		}
+	}
 }

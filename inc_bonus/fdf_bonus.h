@@ -65,6 +65,7 @@ typedef struct s_data {
 	int			y_2;
 	int			size_color;
 	int			s_c_c;
+	int			flag_rot;
 }	t_data;
 
 void	map_create(char *file, t_data *fdf);
@@ -94,5 +95,11 @@ int		convert_int(char *s, int size);
 int		map_contein_color(char *s, int place);
 void    map_parse(char  *book, t_data *fdf);
 int		color_or_hex(t_data *fdf, int x, int y);
+void	drawrotation(t_data *fdf);
+void	drawline_rot(t_data *fdf);
+int		color_or_hex_rot(t_data *fdf, int x, int y);
+void	drawmap_color_and_scale_rot(t_data *fdf);
+void	drawmap_flag_rot(int x, int y, int flag, t_data *fdf);
+void	drawmap_pic_rot(t_data *fdf);
 
 #endif
