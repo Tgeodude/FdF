@@ -1,40 +1,21 @@
-#include "fdf_bonus.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   drawRotation_bonus.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tgeodude <tgeodude@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/10 20:09:31 by tgeodude          #+#    #+#             */
+/*   Updated: 2022/03/10 20:10:57 by tgeodude         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	drawline_rot(t_data *fdf)
-{
-	fdf->deltax = abs(fdf->x2 - fdf->x1);
-	fdf->deltay = abs(fdf->y2 - fdf->y1);
-	fdf->signx = -1;
-	fdf->signy = -1;
-	if (fdf->x1 < fdf->x2)
-		fdf->signx = 1;
-	if (fdf->y1 < fdf->y2)
-		fdf->signy = 1;
-	fdf->error = fdf->deltax - fdf->deltay;
-	if (dis_check(fdf->x2, fdf->y2) == 0)
-		my_pixel_put(fdf, fdf->x2, fdf->y2, fdf->color_2);
-	while (fdf->x1 != fdf->x2 || fdf->y1 != fdf->y2)
-	{
-		if (dis_check(fdf->x1, fdf->y1) == 0)
-			my_pixel_put(fdf, fdf->x1, fdf->y1, fdf->color_1);
-		fdf->error2 = fdf->error * 2;
-		if (fdf->error2 > -fdf->deltay)
-		{
-			fdf->error -= fdf->deltay;
-			fdf->x1 += fdf->signx;
-		}
-		if (fdf->error2 < fdf->deltax)
-		{
-			fdf->error += fdf->deltax;
-			fdf->y1 += fdf->signy;
-		}
-	}
-}
+#include "fdf_bonus.h"
 
 int	color_or_hex_rot(t_data *fdf, int x, int y)
 {
 	if (fdf->flag_hex_map > 0 && fdf->flag_map_color)
-		return(fdf->main_color);
+		return (fdf->main_color);
 	if (fdf->flag_hex_map == 1 && !fdf->flag_map_color)
 		return (fdf->map_hex[y][x]);
 	if (fdf->z == 0 && fdf->z1 == 0)
@@ -54,7 +35,7 @@ void	drawmap_color_and_scale_rot(t_data *fdf)
 {
 	fdf->color_2 = color_or_hex_rot(fdf, fdf->x2, fdf->y2);
 	fdf->color_1 = color_or_hex_rot(fdf, fdf->x1, fdf->y1);
-    fdf->x1 = (fdf->x1 * fdf->scale);
+	fdf->x1 = (fdf->x1 * fdf->scale);
 	fdf->x2 = (fdf->x2 * fdf->scale);
 	fdf->y1 = (fdf->y1 * fdf->scale);
 	fdf->y2 = (fdf->y2 * fdf->scale);
@@ -69,8 +50,9 @@ void	drawmap_color_and_scale_rot(t_data *fdf)
 	if (!(fdf->z1 >= -9 && fdf->z1 <= 9))
 		fdf->z1 /= 10;
 	fdf->z *= (fdf->scale_z * (fdf->scale));
-    fdf->z1 *= (fdf->scale_z * (fdf->scale));
+	fdf->z1 *= (fdf->scale_z * (fdf->scale));
 }
+
 void	drawmap_flag_rot(int x, int y, int flag, t_data *fdf)
 {
 	fdf->x1 = (x);

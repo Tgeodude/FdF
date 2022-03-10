@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   fdf_bonus.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgeodude <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tgeodude <tgeodude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 20:00:39 by tgeodude          #+#    #+#             */
-/*   Updated: 2022/02/24 20:06:02 by tgeodude         ###   ########.fr       */
+/*   Updated: 2022/03/10 20:13:15 by tgeodude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,38 +20,38 @@
 # include "math.h"
 
 typedef struct s_data {
-	int		width;
-	int		height;
-	int		**map;
-	void	*mlx_p;
-	void	*mlx_w;
-	void	*img;
-	char	*addres;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-	int		scale;
-	int		color_1;
-	int		color_2;
-	int		color;
-	int		x1;
-	int		x2;
-	int		y1;
-	int		y2;
-	int		z;
-	int		z1;
-	float	angle;
-	int		position_x;
-	int		position_y;
-	int		flag_hook;
-	int		signx;
-	int		signy;
-	int		deltay;
-	int		deltax;
-	int		error;
-	int		error2;
-	int		scale_z;
-	int		count_z;
+	int			width;
+	int			height;
+	int			**map;
+	void		*mlx_p;
+	void		*mlx_w;
+	void		*img;
+	char		*addres;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+	int			scale;
+	int			color_1;
+	int			color_2;
+	int			color;
+	int			x1;
+	int			x2;
+	int			y1;
+	int			y2;
+	int			z;
+	int			z1;
+	float		angle;
+	int			position_x;
+	int			position_y;
+	int			flag_hook;
+	int			signx;
+	int			signy;
+	int			deltay;
+	int			deltax;
+	int			error;
+	int			error2;
+	int			scale_z;
+	int			count_z;
 	float		angle_x;
 	float		angle_y;
 	float		angle_z;
@@ -93,7 +93,7 @@ int		dec_hex_ab(char c);
 int		dec_hex(char c);
 int		convert_int(char *s, int size);
 int		map_contein_color(char *s, int place);
-void    map_parse(char  *book, t_data *fdf);
+void	map_parse(char *book, t_data *fdf);
 int		color_or_hex(t_data *fdf, int x, int y);
 void	drawrotation(t_data *fdf);
 void	drawline_rot(t_data *fdf);
@@ -101,5 +101,8 @@ int		color_or_hex_rot(t_data *fdf, int x, int y);
 void	drawmap_color_and_scale_rot(t_data *fdf);
 void	drawmap_flag_rot(int x, int y, int flag, t_data *fdf);
 void	drawmap_pic_rot(t_data *fdf);
+void	set_def(t_data *fdf, int argc, char **argv);
+void	drawline(t_data *fdf);
+void	settings_draw(t_data *fdf);
 
 #endif

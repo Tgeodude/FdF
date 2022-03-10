@@ -27,6 +27,8 @@ SRC			= $(SRC_DIR)/fdf.c \
 			$(SRC_DIR)/map_creator.c \
 			$(SRC_DIR)/map_hex.c \
 			$(SRC_DIR)/validation.c \
+			$(SRC_DIR)/drawMap_utils.c \
+			$(SRC_DIR)/map_hex_utils.c \
 
 SRC_BON_DIR	= src_bonus
 SRC_BON		= $(SRC_BON_DIR)/fdf_bonus.c  \
@@ -38,6 +40,9 @@ SRC_BON		= $(SRC_BON_DIR)/fdf_bonus.c  \
 			$(SRC_BON_DIR)/map_hex_bonus.c \
 			$(SRC_BON_DIR)/validation_bonus.c \
 			$(SRC_BON_DIR)/drawRotation_bonus.c \
+			$(SRC_BON_DIR)/drawMap_utils_bonus.c \
+			$(SRC_BON_DIR)/map_hex_utils_bonus.c \
+
 
 
 #INC

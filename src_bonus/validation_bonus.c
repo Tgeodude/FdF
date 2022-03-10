@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validation_bonus.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tgeodude <tgeodude@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/10 19:56:15 by tgeodude          #+#    #+#             */
+/*   Updated: 2022/03/10 19:56:55 by tgeodude         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "fdf_bonus.h"
 
@@ -61,13 +72,4 @@ void	rotate_z(t_data *fdf)
 	temp_y = fdf->y2;
 	fdf->x2 = (int)(temp_x * cos(fdf->angle_z) - temp_y * sin(fdf->angle_z));
 	fdf->y2 = (int)(temp_x * sin(fdf->angle_z) + temp_y * cos(fdf->angle_z));
-}
-
-int	dis_check(int x, int y)
-{
-	if (x >= 2560 || y >= 1600)
-		return (-1);
-	if (x < 0 || y < 0)
-		return (-1);
-	return (0);
 }

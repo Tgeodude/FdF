@@ -3,44 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   drawMap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgeodude <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tgeodude <tgeodude@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 19:49:50 by tgeodude          #+#    #+#             */
-/*   Updated: 2022/02/24 20:05:06 by tgeodude         ###   ########.fr       */
+/*   Updated: 2022/03/10 18:19:16 by tgeodude         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "fdf.h"
 
-void	drawline(t_data *fdf)
-{
-	fdf->deltax = abs(fdf->x2 - fdf->x1);
-	fdf->deltay = abs(fdf->y2 - fdf->y1);
-	fdf->signx = -1;
-	fdf->signy = -1;
-	if (fdf->x1 < fdf->x2)
-		fdf->signx = 1;
-	if (fdf->y1 < fdf->y2)
-		fdf->signy = 1;
-	fdf->error = fdf->deltax - fdf->deltay;
-	if (dis_check(fdf->x2, fdf->y2) == 0)
-		my_pixel_put(fdf, fdf->x2, fdf->y2, fdf->color_2);
-	while (fdf->x1 != fdf->x2 || fdf->y1 != fdf->y2)
-	{
-		if (dis_check(fdf->x1, fdf->y1) == 0)
-			my_pixel_put(fdf, fdf->x1, fdf->y1, fdf->color_1);
-		fdf->error2 = fdf->error * 2;
-		if (fdf->error2 > -fdf->deltay)
-		{
-			fdf->error -= fdf->deltay;
-			fdf->x1 += fdf->signx;
-		}
-		if (fdf->error2 < fdf->deltax)
-		{
-			fdf->error += fdf->deltax;
-			fdf->y1 += fdf->signy;
-		}
-	}
-}
+#include "fdf.h"
 
 void	angle(int *x, int *y, int z, t_data *fdf)
 {
@@ -53,15 +23,10 @@ void	angle(int *x, int *y, int z, t_data *fdf)
 	*y = (temp_x + temp_y) * sin(fdf->angle) - z;
 }
 
-int	create_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
-}
-
 int	color_or_hex(t_data *fdf, int x, int y)
 {
 	if (fdf->flag_hex_map > 0 && fdf->flag_map_color)
-		return(fdf->main_color);
+		return (fdf->main_color);
 	if (fdf->flag_hex_map == 1 && !fdf->flag_map_color)
 		return (fdf->map_hex[y][x]);
 	if (fdf->z == 0 && fdf->z1 == 0)
@@ -99,8 +64,8 @@ void	drawmap_color_and_scale(t_data *fdf)
 		fdf->z1 /= 10;
 	fdf->z = (fdf->z * (fdf->scale));
 	fdf->z1 = (fdf->z1 * (fdf->scale));
-	shift(fdf);
 }
+
 void	drawmap_flag(int x, int y, int flag, t_data *fdf)
 {
 	fdf->x1 = (x);
