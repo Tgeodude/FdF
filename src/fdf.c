@@ -67,16 +67,16 @@ int	main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
     fdf.flag_map_color = 0;
     fdf.main_color = 0;
-	/*fdf.flag_hex_map = check_map_on_hex(argv[1], &fdf);
+    /*fdf.flag_hex_map = check_map_on_hex(argv[1], &fdf);
 	if (fdf.flag_hex_map == 1 && !fdf.flag_map_color)
-        map_parse(argv[1], &fdf);
+        fdf.map_hex = map_parse(argv[1], &fdf);
     if (fdf.flag_hex_map > 1 && fdf.flag_map_color)
         fdf.main_color = fdf.flag_hex_map;*/
 	default_settings(&fdf);
 	close(fd);
 	fdf.mlx_p = mlx_init();
-	fdf.mlx_w = mlx_new_window(fdf.mlx_p, 2560, 1600, "FDF");
-	fdf.img = mlx_new_image(fdf.mlx_p, 2560, 1600);
+	fdf.mlx_w = mlx_new_window(fdf.mlx_p, 1920, 1080, "FDF");
+	fdf.img = mlx_new_image(fdf.mlx_p, 1920, 1080);
 	fdf.addres = mlx_get_data_addr(fdf.img, &fdf.bits_per_pixel, &fdf.line_length, &fdf.endian);
 	fdf.flag_hook = 0;
 	drawmap(&fdf);

@@ -30,22 +30,18 @@ int check_map_on_hex(char *book, t_data *fdf)
     char    *s;
     int     j;
     int     mach;
-    int     i;
 	
     fd = open(book, O_RDONLY);
     j = -1;
     while (j++, j < (fdf->height - 1))
     {
         s = get_next_line(fd);
-        i = -1;
-        while (s[i] != 'x' && (s[i] != '\n' && s[i] != '\0'))
-            i++;
-        if (j == 0 && s[i] == 'x')
+        if (j == 0 && ft_strchr(s, 'x'))
         {
             free(s);
             return (1);
         }
-        if (j > 0 && s[i] == 'x')
+        if (ft_strchr(s, 'x') && j > 0)
         {
             mach = check_map_color(fdf, s);
             free(s);

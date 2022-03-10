@@ -25,96 +25,80 @@ void	free_line(char **big_str)
 
 int	map_width(char *file)
 {
-	char	*str;
 	int		fd;
-	int		word;
-	int		i;
+	int		counter;
+	char	**split_str;
+	char	*str;
 
-	word = 0;
+	counter = 0;
 	fd = open(file, O_RDONLY);
-	i = -1;
 	str = get_next_line(fd);
-	while (str[i])
-	{
-		while (str[i] == ' ' && str[i])
-			i++;
-		if (str[i])
-			word++;
-		while (str[i] != ' ' && str[i])
-			i++;
-	}
+	split_str = ft_split(str, ' ');
+	while (split_str[counter] != NULL)
+		counter++;
 	free(str);
+	free_line(split_str);	
 	close(fd);
-	return (word);
+	return (counter);
 }
 
 int	map_height(char *file)
 {
-	int		i;
 	int		fd;
-	char	*s;
+	int		counter;
+	char	*str;
+
+	counter = 0;
+	fd = open(file, O_RDONLY);
+	str = get_next_line(fd);
+	while (str != NULL)
+	{
+		counter++;
+		free(str);
+		str = get_next_line(fd);
+	}
+	close(fd);
+	return (counter);
+}
+
+void	map_create_parse(char *str, int i, t_data *fdf)
+{
+	char	**big_str;
+	int		j;
+
+	j = 0;
+	fdf->map[i] = (int *)malloc(sizeof(int) * fdf->width + 1);
+	big_str = ft_split(str, ' ');
+	while (big_str[j] != NULL && big_str[j] != 0 && big_str[j][0] != '\n' \
+		&& big_str[j][0] != ' ')
+	{
+		fdf->map[i][j] = ft_atoi(big_str[j]);
+		j++;
+	}
+	if (j < fdf->width)
+	{
+		exit (0);
+	}
+	free_line(big_str);
+	free(str);
+}
+
+void	map_create(char *file, t_data *fdf)
+{
+	int		fd;
+	int		i;
 
 	i = 0;
 	fd = open(file, O_RDONLY);
-	s = get_next_line(fd);
-	while (s)
-	{
-		free(s);
-		i++;
-		s = get_next_line(fd);
-	}
-	free(s);
-	close(fd);
-	return (i);
-}
-
-void	check_len_s(char **s1, char **s2)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (s1[i] && s1[i][0] != '\n')
-		i++;
-	while (s2[j] && s2[j][0] != '\n')
-		j++;
-	if (i != j)
-	{
-		write(1, "Error\n", 6);
+	if (fd < 0)
 		exit(0);
-	}
-}
-
-void map_create(char *book, t_data *fdf)
-{
-	int		i;
-	char	**str;
-	char	**str1;
-	char	*str3;
-	int		j;
-	int		fd;
-
-	i = -1;
-	fdf->map = (int **)malloc(sizeof(int *) * fdf->height);
-	fd = open(book, O_RDONLY);
-	while (i++, i < fdf->height)
+	fdf->map = (int **)malloc(sizeof(int *) * fdf->height + 1);
+	if (!fdf->map)
+		exit(0);
+	while (i < fdf->height)
 	{
-		fdf->map[i] = (int *)malloc(sizeof(int) * fdf->width);
-		str3 = get_next_line(fd);
-		str = ft_split(str3, ' ');
-		if (i != 0)
-		{
-			check_len_s(str, str1);
-			free_line(str1);
-		}
-		j = -1;
-		while (j++, str[j])
-			fdf->map[i][j] = ft_atoi(str[j]);
-		if (i != fdf->height - 1)
-			str1 = str;
-		free(str3);
+		map_create_parse(get_next_line(fd), i, fdf);
+		i++;
 	}
-	free_line(str);
-	close(fd);
+	fdf->map[i] = NULL;
 }
